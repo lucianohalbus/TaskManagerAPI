@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagerApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TaskItemController : ControllerBase
