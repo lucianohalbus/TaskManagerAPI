@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var secretKey = builder.Configuration["Jwt:Key"] ?? "sua-chave-super-secreta-aqui-mas-bem-maior-MinhaSuperSenhaJWT_12345678901234567890!";
+var secretKey = builder.Configuration["Jwt:Key"];
 Console.WriteLine($"JWT Key: '{secretKey}' (len={secretKey.Length})");
 
 // Add services to JWT.

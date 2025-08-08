@@ -37,7 +37,7 @@ namespace TaskManagerApi.Controllers
 
             var keyString = _configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(keyString) || keyString.Length < 32)
-                throw new Exception("sua-chave-super-secreta-aqui-mas-bem-maior-MinhaSuperSenhaJWT_12345678901234567890!");
+                throw new Exception("JWT Key not found or invalid length! Configure via appsettings or environment variable.");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
 

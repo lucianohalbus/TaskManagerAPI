@@ -1,0 +1,23 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build
+bin/
+obj/
+
+# NuGet
+packages/
+*.nupkg
+project.lock.json
+project.fragment.lock.json
+
+# Environment 
+appsettings.Development.json
+
+# Others
+*.swp
+*.bak
+*.tmp
+*.log
