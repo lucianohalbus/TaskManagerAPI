@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskManagerApi.Controllers
+namespace TaskManagerApi.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
-
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class HelloController : ControllerBase
     {
         [HttpGet]

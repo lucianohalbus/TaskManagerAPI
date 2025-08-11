@@ -21,3 +21,36 @@ appsettings.Development.json
 *.bak
 *.tmp
 *.log
+
+# IDEs
+.vscode/
+.idea/
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Build/artefatos extras
+out/
+logs/
+TestResults/
+*.trx
+*.coverage*
+*.cov
+
+# Bancos locais (SQL Server)
+*.mdf
+*.ldf
+
+# Certificados/keys locais
+*.pfx
+*.snk
+
+# AppSettings de ambientes (mantenha só o appsettings.json base no repo)
+appsettings.Staging.json
+appsettings.Production.json
+appsettings.Local.json
+appsettings.*.Local.json
+
+# (Opcional) perfis de publish do VS — às vezes têm credenciais
+Properties/PublishProfiles/

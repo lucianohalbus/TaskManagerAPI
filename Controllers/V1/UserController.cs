@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using TaskManagerApi.Data;
 using TaskManagerApi.Models;
 
-namespace TaskManagerApi.Controllers
+namespace TaskManagerApi.Controllers.V1
+
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0", Deprecated = true)]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly TaskManagerContext _context;

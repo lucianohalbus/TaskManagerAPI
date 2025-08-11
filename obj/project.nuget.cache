@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IMGEDIoyvCM=",
+  "dgSpecHash": "n0I0Eey76Z8=",
   "success": true,
   "projectFilePath": "C:\\Users\\lpuze\\OneDrive\\crud\\TaskManagerApi\\TaskManagerApi.csproj",
   "expectedPackageFiles": [
@@ -39,6 +39,8 @@
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.razor.extensions\\2.3.0\\microsoft.aspnetcore.mvc.razor.extensions.2.3.0.nupkg.sha512",
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.razorpages\\2.3.0\\microsoft.aspnetcore.mvc.razorpages.2.3.0.nupkg.sha512",
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.taghelpers\\2.3.0\\microsoft.aspnetcore.mvc.taghelpers.2.3.0.nupkg.sha512",
+    "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning\\5.1.0\\microsoft.aspnetcore.mvc.versioning.5.1.0.nupkg.sha512",
+    "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.versioning.apiexplorer\\5.1.0\\microsoft.aspnetcore.mvc.versioning.apiexplorer.5.1.0.nupkg.sha512",
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.mvc.viewfeatures\\2.3.0\\microsoft.aspnetcore.mvc.viewfeatures.2.3.0.nupkg.sha512",
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
     "C:\\Users\\lpuze\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.3.0\\microsoft.aspnetcore.razor.2.3.0.nupkg.sha512",
