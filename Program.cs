@@ -33,8 +33,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApiVersioning(opt =>
 {
-    opt.DefaultApiVersion = new ApiVersion(1, 0);
-    opt.AssumeDefaultVersionWhenUnspecified = true;
+    opt.DefaultApiVersion = new ApiVersion(2, 0);   // default is now v2
+    opt.AssumeDefaultVersionWhenUnspecified = false; // force clients to send /api/v2/...
     opt.ReportApiVersions = true;
     opt.ApiVersionReader = new UrlSegmentApiVersionReader();
 });

@@ -4,9 +4,10 @@ using TaskManagerApi.Data;
 using TaskManagerApi.Models;
 using Microsoft.AspNetCore.Authorization;
 
-namespace TaskManagerApi.Controllers.V1
+namespace TaskManagerApi.Controllers.V2
 {
-    [ApiVersion("1.0")]
+    [ApiController]
+    [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [Authorize]
     public class TaskItemController : ControllerBase
