@@ -9,7 +9,6 @@ using TaskManagerApi.Security;
 
 namespace TaskManagerApi.Controllers.V2
 {
-    // Faça login usando e-mail OU username
     public record AuthLoginDto(string Identifier, string Password);
 
     [ApiController]

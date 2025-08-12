@@ -13,11 +13,7 @@ namespace TaskManagerApi.Controllers.V2
     public class TaskItemController : ControllerBase
     {
         private readonly TaskManagerContext _context;
-
-        public TaskItemController(TaskManagerContext context)
-        {
-            _context = context;
-        }
+        public TaskItemController(TaskManagerContext context) => _context = context;
 
         // GET: api/TaskItem
         [HttpGet]

@@ -1,16 +1,30 @@
-using TaskManagerApi.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Versioning;
+using TaskManagerApi.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// JWT
-var secretKey = builder.Configuration["Jwt:Key"];
+// ----------------------------
+// JWT configs validation
+// ----------------------------
+var jwtSection = builder.Configuration.GetSection("Jwt");
+foreach (var key in new[] { "Key", "Issuer", "Audience" })
+{
+    if (string.IsNullOrWhiteSpace(jwtSection[key]))
+        throw new InvalidOperationException($"Configuração obrigatória ausente: Jwt:{key}");
+}
+
+// ----------------------------
+// JWT Authentication
+// ----------------------------
+var secretKey = jwtSection["Key"]!;
+var jwtKeyBytes = Encoding.UTF8.GetBytes(secretKey);
+
 builder.Services.AddAuthentication(o =>
 {
     o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -18,41 +32,68 @@ builder.Services.AddAuthentication(o =>
 })
 .AddJwtBearer(o =>
 {
-    o.TokenValidationParameters = new TokenValidationParameters
+    if (builder.Environment.IsDevelopment())
     {
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-        // Em produção => ativar ValidIssuer/ValidAudience e ClockSkew = TimeSpan.Zero
-    };
+        // Dev
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(jwtKeyBytes)
+        };
+    }
+    else
+    {
+        // Prod
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSection["Issuer"]!,
+            ValidAudience = jwtSection["Audience"]!,
+            IssuerSigningKey = new SymmetricSecurityKey(jwtKeyBytes),
+            ClockSkew = TimeSpan.Zero 
+        };
+    }
 });
 
+// ----------------------------
 // Controllers + Versioning + Swagger
+// ----------------------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddApiVersioning(opt =>
 {
-    opt.DefaultApiVersion = new ApiVersion(2, 0);   // default is now v2
-    opt.AssumeDefaultVersionWhenUnspecified = false; // force clients to send /api/v2/...
+    opt.DefaultApiVersion = new ApiVersion(2, 0);
+    opt.AssumeDefaultVersionWhenUnspecified = false;
     opt.ReportApiVersions = true;
     opt.ApiVersionReader = new UrlSegmentApiVersionReader();
 });
+
 builder.Services.AddVersionedApiExplorer(opt =>
 {
     opt.GroupNameFormat = "'v'VVV";
     opt.SubstituteApiVersionInUrl = true;
 });
+
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 
+// ----------------------------
 // DbContext
+// ----------------------------
 builder.Services.AddDbContext<TaskManagerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// ----------------------------
+// App
+// ----------------------------
 var app = builder.Build();
 
-// Swagger só em Development
+// Swagger Development only
 if (app.Environment.IsDevelopment())
 {
     var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
@@ -65,16 +106,14 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // Produção: HSTS (sempre usar HTTPS neste host)
+    // Produção: HSTS
     app.UseHsts();
 }
 
-// Sempre redirecionar HTTP -> HTTPS
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 app.Run();
+
 
