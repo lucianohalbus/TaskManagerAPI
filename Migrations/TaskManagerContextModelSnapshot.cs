@@ -47,7 +47,7 @@ namespace TaskManagerApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TaskItems", (string)null);
+                    b.ToTable("TaskItems");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Models.User", b =>
@@ -81,7 +81,7 @@ namespace TaskManagerApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TaskManagerApi.Models.TaskItem", b =>

@@ -31,15 +31,13 @@ builder.Services.AddAuthentication(o =>
 // Controllers + Versioning + Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddApiVersioning(opt =>
 {
-    opt.DefaultApiVersion = new ApiVersion(2, 0);   
-    opt.AssumeDefaultVersionWhenUnspecified = false; 
+    opt.DefaultApiVersion = new ApiVersion(1, 0);
+    opt.AssumeDefaultVersionWhenUnspecified = true;
     opt.ReportApiVersions = true;
     opt.ApiVersionReader = new UrlSegmentApiVersionReader();
 });
-
 builder.Services.AddVersionedApiExplorer(opt =>
 {
     opt.GroupNameFormat = "'v'VVV";
@@ -67,11 +65,11 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // Produção: HSTS 
+    // Produção: HSTS (sempre usar HTTPS neste host)
     app.UseHsts();
 }
 
-// redirecionar HTTP -> HTTPS
+// Sempre redirecionar HTTP -> HTTPS
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
