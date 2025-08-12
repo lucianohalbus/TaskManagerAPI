@@ -49,8 +49,7 @@ namespace TaskManagerApi.Controllers.V2
                 Email = input.Email,
                 Username = input.Username,
                 PasswordHash = hash,
-                PasswordSalt = salt,
-                Password = null
+                PasswordSalt = salt
             };
             _ctx.Users.Add(user);
             await _ctx.SaveChangesAsync();
@@ -66,17 +65,12 @@ namespace TaskManagerApi.Controllers.V2
             var user = await _ctx.Users.SingleOrDefaultAsync(u => u.Email == input.Email);
             if (user is null) return Unauthorized();
 
-            // Migração automática de v1 para v2
             if (user.PasswordHash is null || user.PasswordSalt is null)
             {
-                if (user.Password is null || user.Password != input.Password) return Unauthorized();
-                var (h, s) = PasswordUtils.Hash(input.Password);
-                user.PasswordHash = h; 
-                user.PasswordSalt = s; 
-                user.Password = null;
-                await _ctx.SaveChangesAsync();
+                return Unauthorized("Password reset required."); // ou 409/Forbid/Problem(...) se preferir
             }
-            else if (!PasswordUtils.Verify(input.Password, user.PasswordHash, user.PasswordSalt))
+
+            if (!PasswordUtils.Verify(input.Password, user.PasswordHash, user.PasswordSalt))
             {
                 return Unauthorized();
             }
