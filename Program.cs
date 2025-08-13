@@ -54,9 +54,20 @@ builder.Services.AddAuthentication(o =>
             ValidIssuer = jwtSection["Issuer"]!,
             ValidAudience = jwtSection["Audience"]!,
             IssuerSigningKey = new SymmetricSecurityKey(jwtKeyBytes),
-            ClockSkew = TimeSpan.Zero 
+            ClockSkew = TimeSpan.Zero
         };
     }
+});
+
+var devCorsPolicy = "DevCors";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(devCorsPolicy, policy =>
+        policy.WithOrigins("http://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials() // ok mesmo se não usar cookies; pode deixar
+    );
 });
 
 // ----------------------------
@@ -111,6 +122,7 @@ else
 }
 
 app.UseHttpsRedirection();
+app.UseCors(devCorsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
