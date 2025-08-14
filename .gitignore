@@ -37,9 +37,8 @@ TestResults/
 *.trx
 *.coverage*
 *.cov
-echo "publish/" >> .gitignore
-echo "*.zip" >> .gitignore
-
+publish/
+*.zip
 
 # Bancos locais (SQL Server)
 *.mdf
